@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<!-- 테이블컬럼 이름에 READ_COUNT처럼 언더 스코어가 있을 떄 VO의 ReadCount처럼 카멜 케이스로 변환되게 합니다. -->
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.project.unicon.vo.Info_VO" alias="info_VO" />
+		<typeAlias type="com.project.unicon.vo.Review_VO" alias="review_VO" />
+	</typeAliases>
+</configuration>
