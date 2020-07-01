@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.unicon.mappers.Info_Mapper">
+	<resultMap id="infoGame" type="info_VO">
+		<result property="game_code" column="game_code" />
+		<result property="game_name" column="game_name" />
+		<result property="big_category" column="big_category" />
+		<result property="small_category" column="small_category" />
+		<result property="genre" column="genre" />
+		<result property="release_date" column="release_date" />
+		<result property="price" column="price" />
+		<result property="age" column="age" />
+		<result property="min_system" column="min_system" />
+		<result property="recommen_system" column="recommen_system" />
+		<result property="registered_date" column="registered_date" />
+		<result property="menufacture" column="menufacture" />
+		<result property="share_company" column="share_company" />
+		<result property="content" column="content" />
+		<result property="link_1" column="link_1" />
+		<result property="link_2" column="link_2" />
+		<result property="link_3" column="link_3" />
+		<result property="link_4" column="link_4" />
+		<result property="hash_tag" column="hash_tag" />
+		<result property="hash_tag2" column="hash_tag2" />
+		<result property="hash_tag3" column="hash_tag3" />
+	</resultMap>
+	
+	<select id="allgamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="pcgamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE small_category = 'pc'
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="mobilegamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE small_category = 'mobile'
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="xboxgamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE small_category = 'xbox'
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="psgamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE small_category = 'ps4'
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="nintendogamelist" resultMap="infoGame">
+		<![CDATA[
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE small_category = 'switch'
+			ORDER BY game_code DESC
+		]]>
+	</select>
+	
+	<select id="gameview" resultMap="infoGame">
+		<![CDATA[
+			SELECT * 
+			FROM gmunicon.game_info
+			WHERE game_code = #{game_code}
+		]]>
+	</select>
+	
+	<select id="gamesearch" resultMap="infoGame">
+			SELECT game_code, game_name, genre, small_category, share_company
+			FROM gmunicon.game_info
+			WHERE (game_name like '%'||#{searchValue}||'%' or 
+				hash_tag like '%'||#{searchValue}||'%' or
+				hash_tag2 like '%'||#{searchValue}||'%' or
+				hash_tag3 like '%'||#{searchValue}||'%')
+			<choose>
+				<when test="genre.equals('pc')">
+					and small_category like #{genre}
+				</when>
+				<when test="genre.equals('mobile')">
+					and small_category like #{genre}
+				</when>
+				<when test="genre.equals('xbox')">
+					and small_category like #{genre}
+				</when>
+				<when test="genre.equals('switch')">
+					and small_category like #{genre}
+				</when>
+				<when test="genre.equals('ps4')">
+					and small_category like #{genre}
+				</when>
+				<when test="genre.equals('all')">
+					and small_category is not null
+				</when>
+			</choose>
+	</select>
+	
+</mapper>

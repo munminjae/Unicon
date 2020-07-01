@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.unicon.mappers.Review_Mapper">
+	<resultMap id="review" type="review_VO">		
+		<result property="game_code" column="game_code" />
+		<result property="id" column="id" />
+		<result property="content" column="content" />
+		<result property="writedate" column="writedate" />
+		<result property="score" column="score" />
+		<result property="review_code" column="review_code" />
+		<result property="goods_count" column="goods_count" />
+		<result property="value" column="value" />
+	</resultMap>
+	
+	<resultMap id="review2" type="review_VO">		
+		<result property="game_code" column="game_code" />
+		<result property="id" column="id" />
+		<result property="review_code" column="review_code" />
+		<result property="goods_count" column="goods_count" />
+		<result property="value" column="value" />
+	</resultMap>
+	
+	
+	<select id="reviewlist" resultMap="review">
+		<![CDATA[
+			SELECT *
+			FROM gmunicon.review
+			WHERE game_code = #{game_code}
+		]]>
+	</select>
+	
+	<insert id="insertReview" parameterType="review_VO">
+		<![CDATA[
+			INSERT INTO gmunicon.review VALUES(review_seq.nextval, #{game_code},
+			#{id}, #{content}, DEFAULT, #{score}, DEFAULT)
+		]]>
+	</insert>
+	
+	<update id="goodsUpCount" parameterType="review_VO">
+		<![CDATA[
+			UPDATE gmunicon.review 
+			SET goods_count = goods_count +1
+			where review_code = #{review_code}
+		]]>
+	</update>
+	
+	<insert id="insertReviewDetail" parameterType="review_VO">
+		<![CDATA[
+			INSERT INTO gmunicon.goods_detail
+			VALUES (#{review_code}, #{id})
+		]]>
+	
+	</insert>
+	
+	<select id="goodsIdCheck" parameterType="map" resultType="Integer">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM gmunicon.goods_detail
+			WHERE id = #{id} AND review_code = #{review_code}
+		]]>
+	</select>
+	
+	<delete id="reviewDelete" parameterType="review_VO">
+		delete from gmunicon.review
+		where review_code=#{review_code} and id=#{id}
+	</delete>
+	
+
+</mapper>
